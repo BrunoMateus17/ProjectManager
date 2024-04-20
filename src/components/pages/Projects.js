@@ -4,9 +4,13 @@ import Container from "../layout/Container"
 import LinkButton from "../layout/LinkButton"
 import styles from "./Projects.module.css"
 import ProjectCard from "../project/ProjectCard"
+import Loading from "../layout/Loading"
 import { useState,useEffect } from "react"
 function Projects(){
-    const [project,setProject] = useState([])
+    const [projects,setProjects] = useState([])
+    const [removeLoading,setRemoveLoading] = useState(false)
+    const [projectsMessage, setProjectsMessage] = useState('')
+
     const location = useLocation();
     let message = '';
     if(location.state){
@@ -21,12 +25,26 @@ function Projects(){
         })
         .then((resp) => resp.json())
         .then((data) => {
-            console.log(data)
-            setProject(data)
-            console.log(project.length)
+            setProjects(data)
+            setRemoveLoading(true)
         })
         .catch((err) => console.log(err))
     },[])
+
+    function removeProject(id) {
+        fetch(`http://localhost:5000/projects/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            setProjects(projects.filter((projects) => projects.id !== id))
+            setProjectsMessage('Projeto removido com sucesso!')
+          })
+      }
+    
     return (
         <div className={styles.project_container}>
             <div className={styles.title_container}>
@@ -34,16 +52,22 @@ function Projects(){
                 <LinkButton to="/newproject" text="Criar projeto" />
             </div>
             {message && <Message type="success" msg={message} />}
+            {projectsMessage && <Message type="success" msg={projectsMessage} />}
             <Container customClass="start">
-                {project.length > 0 && 
-                    project.map((project) =>
+                {projects.length > 0 && 
+                    projects.map((projects) =>
                         ( <ProjectCard 
-                            id={project.id}
-                            name={project.name}
-                            budget={project.budget}
-                            category={project.category.name}
-                            key={project.id}
+                            id={projects.id}
+                            name={projects.name}
+                            budget={projects.budget}
+                            category={projects.category.name}
+                            key={projects.id}
+                            handleRemove={removeProject}
                         />)
+                    )}
+                    {!removeLoading && <Loading />}
+                    {removeLoading && projects.length === 0 && (
+                        <p>Não há projetos cadastrado</p>
                     )}
             </Container>
         </div>

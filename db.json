@@ -72,50 +72,6 @@
       },
       "cost": 0,
       "services": []
-    },
-    {
-      "id": "e278",
-      "name": "asd",
-      "budget": "34",
-      "category": {
-        "id": "1",
-        "name": "Infra"
-      },
-      "cost": 0,
-      "services": []
-    },
-    {
-      "id": "38e0",
-      "name": "bruno ",
-      "budget": "34",
-      "category": {
-        "id": "1",
-        "name": "Infra"
-      },
-      "cost": 0,
-      "services": []
-    },
-    {
-      "id": "469c",
-      "name": "dsf",
-      "budget": "34",
-      "category": {
-        "id": "1",
-        "name": "Infra"
-      },
-      "cost": 0,
-      "services": []
-    },
-    {
-      "id": "a6c3",
-      "name": "43",
-      "category": {
-        "id": "1",
-        "name": "Infra"
-      },
-      "budget": "34",
-      "cost": 0,
-      "services": []
     }
   ],
   "categories": [
